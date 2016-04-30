@@ -13,7 +13,21 @@ gitmock
 
 ## Description
 
+create mock git repository
+
 ## Synopsis
+
+```go
+gm, _ := gitmock.New()
+defer os.RemoveAll(gm.RepoPath())
+gm.Init()
+file := "hoge/fuga.txt"
+gm.PutFile(file, "aaa\n")
+gm.Add(file)
+gm.Commit("-m", "initial commit")
+out, stderr, err := gm.Status()
+fmt.Print(out)
+```
 
 ## Author
 

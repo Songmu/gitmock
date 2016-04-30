@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/Songmu/gitmock"
 )
@@ -21,8 +22,11 @@ func ExampleNew() {
 	gm.Add(file)
 	gm.Commit("-m", "initial commit")
 	out, _, _ := gm.Status()
+	if !strings.HasPrefix(out, "#") {
+		out = "# " + out
+	}
 	fmt.Print(out)
 	// Output:
-	// On branch master
+	// # On branch master
 	// nothing to commit, working directory clean
 }

@@ -96,7 +96,7 @@ func (gm *GitMock) gitProg() string {
 
 func (gm *GitMock) env() (ret []string) {
 	if gm.user != "" {
-		envs := []string{"GIT_AUTHOR_NAME", "GIT_COMMITER_NAME"}
+		envs := []string{"GIT_AUTHOR_NAME", "GIT_COMMITTER_NAME"}
 		for _, v := range envs {
 			if env := os.Getenv(v); env == "" {
 				ret = append(ret, fmt.Sprintf("%s=%s", v, gm.user))
@@ -104,7 +104,7 @@ func (gm *GitMock) env() (ret []string) {
 		}
 	}
 	if gm.email != "" {
-		envs := []string{"GIT_AUTHOR_EMAIL", "GIT_COMMITER_EMAIL"}
+		envs := []string{"GIT_AUTHOR_EMAIL", "GIT_COMMITTER_EMAIL"}
 		for _, v := range envs {
 			if env := os.Getenv(v); env == "" {
 				ret = append(ret, fmt.Sprintf("%s=%s", v, gm.email))
