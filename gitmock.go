@@ -37,7 +37,7 @@ func New(opts ...string) (*GitMock, error) {
 	}
 	ver, err := semver.NewVersion(arr[2])
 	if err != nil {
-		return nil, errors.Wrap(err, "git version looks strange")
+		return nil, errors.Wrap(err, fmt.Sprintf("git version [%s] looks strange", arr[2]))
 	}
 	c, _ := semver.NewConstraint(">= 1.8.5")
 	if !c.Check(ver) {
