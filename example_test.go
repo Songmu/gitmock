@@ -14,15 +14,15 @@ func ExampleNew() {
 		log.Print(err)
 		return
 	}
-	repo := gm.RepoPath()
-	defer os.RemoveAll(repo)
+	defer os.RemoveAll(gm.RepoPath())
 	gm.Init()
 	file := "hoge/fuga.txt"
 	gm.PutFile(file, "aaa\n")
 	gm.Add(file)
 	gm.Commit("-m", "initial commit")
-
-	fmt.Println("done")
+	out, _, _ := gm.Status()
+	fmt.Print(out)
 	// Output:
-	// done
+	// On branch master
+	// nothing to commit, working directory clean
 }
