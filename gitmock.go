@@ -14,6 +14,7 @@ import (
 	"github.com/pkg/errors"
 )
 
+//go:generate go run _tools/gen.go
 // New returns new GitMock
 func New(opts ...string) (*GitMock, error) {
 	git := "git"
