@@ -26,7 +26,6 @@ gm.PutFile(file, "aaa\n")
 gm.Add(file)
 gm.Commit("-m", "initial commit")
 out, stderr, err := gm.Status()
-fmt.Print(out)
 ```
 
 ## Author
