@@ -39,14 +39,14 @@ func New(opts ...string) (*GitMock, error) {
 	if len(verArr) < 3 {
 		return nil, fmt.Errorf("git version [%s] looks strange", arr[2])
 	}
-	semv := strings.Join(verArr[0:2], ".")
+	semv := strings.Join(verArr[:3], ".")
 	ver, err := semver.NewVersion(semv)
 	if err != nil {
 		return nil, errors.Wrap(err, fmt.Sprintf("git version [%s] looks strange", arr[2]))
 	}
 	c, _ := semver.NewConstraint(">= 1.8.5")
 	if !c.Check(ver) {
-		return nil, fmt.Errorf("git 1.8.5 or later required.")
+		return nil, fmt.Errorf("git 1.8.5 or later required")
 	}
 
 	user := ""
