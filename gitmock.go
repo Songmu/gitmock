@@ -35,7 +35,12 @@ func New(opts ...string) (*GitMock, error) {
 	if len(arr) != 3 || arr[0] != "git" || arr[1] != "version" {
 		return nil, fmt.Errorf("output of `git version` looks strange: %s", gitVer)
 	}
-	ver, err := semver.NewVersion(arr[2])
+	verArr := strings.Split(arr[2], ".")
+	if len(verArr) < 3 {
+		return nil, fmt.Errorf("git version [%s] looks strange", arr[2])
+	}
+	semv := strings.Join(verArr[0:2], ".")
+	ver, err := semver.NewVersion(semv)
 	if err != nil {
 		return nil, errors.Wrap(err, fmt.Sprintf("git version [%s] looks strange", arr[2]))
 	}
