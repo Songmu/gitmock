@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"strings"
 
 	"github.com/Masterminds/semver"
@@ -122,4 +123,16 @@ func (gm *GitMock) Do(args ...string) (string, string, error) {
 	cmd.Stderr = &berr
 	err := cmd.Run()
 	return bout.String(), berr.String(), err
+}
+
+// PutFile put a file to repo
+func (gm *GitMock) PutFile(file, content string) error {
+	repo := gm.RepoPath()
+	fpath := filepath.Join(repo, file)
+	err := os.MkdirAll(filepath.Dir(fpath), 0755)
+	if err != nil {
+		return err
+	}
+	c := []byte(content)
+	return ioutil.WriteFile(fpath, c, 0644)
 }
