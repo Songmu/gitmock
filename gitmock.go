@@ -18,11 +18,24 @@ import (
 // New creates a new git mock repository.
 // If gitPath is the empty string, `git` is used.
 func New(gitPath string) (*GitMock, error) {
-	if gitPath == "" {
-		gitPath = "git"
+	return (&GitMock{gitPath: gitPath}).Initialize()
+}
+
+// GitMock is git mock repository
+type GitMock struct {
+	repoPath string
+	gitPath  string
+	user     string
+	email    string
+}
+
+// Initialize the GitMock
+func (gm *GitMock) Initialize() (*GitMock, error) {
+	if gm.gitPath == "" {
+		gm.gitPath = "git"
 	}
 
-	cmd := exec.Command(gitPath, "version")
+	cmd := exec.Command(gm.gitPath, "version")
 	cmd.Env = append(os.Environ(), "LANG=C")
 	var b bytes.Buffer
 	cmd.Stdout = &b
@@ -49,30 +62,16 @@ func New(gitPath string) (*GitMock, error) {
 		return nil, fmt.Errorf("git 1.8.5 or later required")
 	}
 
-	user := ""
-	err = exec.Command(gitPath, "config", "user.name").Run()
+	err = exec.Command(gm.gitPath, "config", "user.name").Run()
 	if err != nil {
-		user = "gitmock"
+		gm.user = "gitmock"
 	}
-	email := ""
-	err = exec.Command(gitPath, "config", "user.email").Run()
+	err = exec.Command(gm.gitPath, "config", "user.email").Run()
 	if err != nil {
-		email = "gitmock@example.com"
+		gm.email = "gitmock@example.com"
 	}
 
-	return &GitMock{
-		gitPath: gitPath,
-		user:    user,
-		email:   email,
-	}, nil
-}
-
-// GitMock is git mock repository
-type GitMock struct {
-	repoPath string
-	gitPath  string
-	user     string
-	email    string
+	return gm, nil
 }
 
 // RepoPath returns repository path
