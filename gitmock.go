@@ -52,12 +52,12 @@ func New(opts ...string) (*GitMock, error) {
 	user := ""
 	err = exec.Command(git, "config", "user.name").Run()
 	if err != nil {
-		user = "gomock"
+		user = "gitmock"
 	}
 	email := ""
 	err = exec.Command(git, "config", "user.email").Run()
 	if err != nil {
-		email = "gomock@example.com"
+		email = "gitmock@example.com"
 	}
 
 	return &GitMock{
@@ -78,7 +78,7 @@ type GitMock struct {
 // RepoPath returns repository path
 func (gm *GitMock) RepoPath() string {
 	if gm.repoPath == "" {
-		dir, err := ioutil.TempDir("", "gitmock")
+		dir, err := ioutil.TempDir("", "gitmock-")
 		if err != nil {
 			log.Fatal(err.Error())
 		}
@@ -116,14 +116,11 @@ func (gm *GitMock) env() (ret []string) {
 
 // Do the git command
 func (gm *GitMock) Do(args ...string) (string, string, error) {
-	arg := []string{"-C", gm.RepoPath()}
-	arg = append(arg, args...)
+	arg := append([]string{"-C", gm.RepoPath()}, args...)
 	cmd := exec.Command(gm.gitProg(), arg...)
 	cmd.Env = append(os.Environ(), "LANG=C")
-	env := gm.env()
-	if len(env) > 0 {
-		cmd.Env = append(cmd.Env, env...)
-	}
+	cmd.Env = append(cmd.Env, gm.env()...)
+
 	var bout, berr bytes.Buffer
 	cmd.Stdout = &bout
 	cmd.Stderr = &berr

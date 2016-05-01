@@ -13,14 +13,17 @@ gitmock
 
 ## Description
 
-create mock git repository
+Create mock git repository for testing.
 
 ## Synopsis
 
 ```go
-gm, _ := gitmock.New()
+gm, err := gitmock.New()
+if err != nil {
+    log.Fatal(err)
+}
 defer os.RemoveAll(gm.RepoPath())
-gm.Init()
+gm.Init() // shortcut of `gm.Do("init")
 file := "hoge/fuga.txt"
 gm.PutFile(file, "aaa\n")
 gm.Add(file)
