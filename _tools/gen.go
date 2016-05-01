@@ -13,8 +13,7 @@ var tmpl = `package gitmock
 var funcTmpl = `
 // %s Do git %s
 func (gm *GitMock) %s(args ...string) (string, string, error) {
-	arg := []string{"%s"}
-	arg = append(arg, args...)
+	arg := append([]string{"%s"}, args...)
 	return gm.Do(arg...)
 }
 `
