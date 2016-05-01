@@ -12,8 +12,7 @@ import (
 func ExampleNew() {
 	gm, err := gitmock.New()
 	if err != nil {
-		log.Print(err)
-		return
+		log.Fatal(err)
 	}
 	defer os.RemoveAll(gm.RepoPath())
 	gm.Init()
