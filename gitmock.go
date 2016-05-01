@@ -1,3 +1,4 @@
+// Package gitmock provides utilities for creating mock git repository
 package gitmock
 
 //go:generate go run _tools/gen.go
