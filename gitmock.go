@@ -15,14 +15,14 @@ import (
 	"github.com/pkg/errors"
 )
 
-// New returns new GitMock
-func New(opts ...string) (*GitMock, error) {
-	git := "git"
-	if len(opts) > 0 {
-		git = opts[0]
+// New creates a new git mock repository.
+// If gitPath is the empty string, `git` is used.
+func New(gitPath string) (*GitMock, error) {
+	if gitPath == "" {
+		gitPath = "git"
 	}
 
-	cmd := exec.Command(git, "version")
+	cmd := exec.Command(gitPath, "version")
 	cmd.Env = append(os.Environ(), "LANG=C")
 	var b bytes.Buffer
 	cmd.Stdout = &b
@@ -50,18 +50,18 @@ func New(opts ...string) (*GitMock, error) {
 	}
 
 	user := ""
-	err = exec.Command(git, "config", "user.name").Run()
+	err = exec.Command(gitPath, "config", "user.name").Run()
 	if err != nil {
 		user = "gitmock"
 	}
 	email := ""
-	err = exec.Command(git, "config", "user.email").Run()
+	err = exec.Command(gitPath, "config", "user.email").Run()
 	if err != nil {
 		email = "gitmock@example.com"
 	}
 
 	return &GitMock{
-		gitPath: git,
+		gitPath: gitPath,
 		user:    user,
 		email:   email,
 	}, nil

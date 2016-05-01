@@ -18,7 +18,7 @@ Create mock git repository for testing.
 ## Synopsis
 
 ```go
-gm, err := gitmock.New()
+gm, err := gitmock.New("")
 if err != nil {
     log.Fatal(err)
 }

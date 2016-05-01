@@ -10,7 +10,7 @@ import (
 )
 
 func ExampleNew() {
-	gm, err := gitmock.New()
+	gm, err := gitmock.New("")
 	if err != nil {
 		log.Fatal(err)
 	}
