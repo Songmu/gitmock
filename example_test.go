@@ -27,5 +27,5 @@ func ExampleNew() {
 	fmt.Print(out)
 	// Output:
 	// # On branch master
-	// nothing to commit, working directory clean
+	// nothing to commit, working tree clean
 }
