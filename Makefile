@@ -1,19 +1,34 @@
+ifdef update
+  u=-u
+endif
+
+export GO111MODULE=on
+
+.PHONY: deps
+deps:
+	go get ${u} -d
+	go mod tidy
+
+.PHONY: devel-deps
+devel-deps: deps
+	GO111MODULE=off go get ${u} \
+	  golang.org/x/lint/golint            \
+	  github.com/mattn/goveralls          \
+	  github.com/Songmu/godzil/cmd/godzil
+
+.PHONY: test
 test: deps
 	go test
 
-deps:
-	go get -d -v -t ./...
-	go get golang.org/x/lint/golint
-	go get github.com/mattn/goveralls
+.PHONY: lint
+lint: devel-deps
+	go vet
+	golint -set_exit_status
 
-LINT_RET = .golint.txt
-lint: deps
-	go vet ./...
-	rm -f $(LINT_RET)
-	golint ./... | tee $(LINT_RET)
-	test ! -s $(LINT_RET)
-
-cover: deps
+.PHONY: cover
+cover: devel-deps
 	goveralls
 
-.PHONY: test deps lint cover
+.PHONY: release
+release: devel-deps
+	godzil release
