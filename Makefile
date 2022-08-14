@@ -1,8 +1,7 @@
-ifdef update
-  u=-u
-endif
-
-export GO111MODULE=on
+VERSION = $(shell godzil show-version)
+CURRENT_REVISION = $(shell git rev-parse --short HEAD)
+BUILD_LDFLAGS = "-s -w -X github.com/Songmu/gitmock.revision=$(CURRENT_REVISION)"
+u := $(if $(update),-u)
 
 .PHONY: deps
 deps:
@@ -10,24 +9,12 @@ deps:
 	go mod tidy
 
 .PHONY: devel-deps
-devel-deps: deps
-	GO111MODULE=off go get ${u} \
-	  golang.org/x/lint/golint            \
-	  github.com/mattn/goveralls          \
-	  github.com/Songmu/godzil/cmd/godzil
+devel-deps: build
+	go install github.com/Songmu/godzil/cmd/godzil@latest
 
 .PHONY: test
-test: deps
+test:
 	go test
-
-.PHONY: lint
-lint: devel-deps
-	go vet
-	golint -set_exit_status
-
-.PHONY: cover
-cover: devel-deps
-	goveralls
 
 .PHONY: release
 release: devel-deps
