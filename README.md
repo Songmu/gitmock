@@ -1,15 +1,15 @@
 gitmock
 =======
 
-[![Build Status](https://travis-ci.org/Songmu/gitmock.svg?branch=master)][travis]
-[![Coverage Status](https://coveralls.io/repos/Songmu/gitmock/badge.svg?branch=master)][coveralls]
-[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)][license]
-[![GoDoc](https://godoc.org/github.com/Songmu/gitmock?status.svg)][godoc]
+[![Test Status](https://github.com/Songmu/gitmock/workflows/test/badge.svg?branch=main)][actions]
+[![codecov.io](https://codecov.io/github/Songmu/gitmock/coverage.svg?branch=main)][codecov]
+[![MIT License](https://img.shields.io/github/license/Songmu/gitmock)][license]
+[![PkgGoDev](https://pkg.go.dev/badge/github.com/Songmu/gitmock)][PkgGoDev]
 
-[travis]: https://travis-ci.org/Songmu/gitmock
-[coveralls]: https://coveralls.io/r/Songmu/gitmock?branch=master
-[license]: https://github.com/Songmu/gitmock/blob/master/LICENSE
-[godoc]: https://godoc.org/github.com/Songmu/gitmock
+[actions]: https://github.com/Songmu/gitmock/actions?workflow=test
+[codecov]: https://codecov.io/github/Songmu/gitmock?branch=main
+[license]: https://github.com/Songmu/gitmock/blob/main/LICENSE
+[PkgGoDev]: https://pkg.go.dev/github.com/Songmu/gitmock
 
 ## Description
 
