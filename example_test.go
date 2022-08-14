@@ -14,6 +14,8 @@ func ExampleNew() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	gm.Do("config", "--global", "init.defaultBranch", "main") // XXX
+
 	defer os.RemoveAll(gm.RepoPath())
 	gm.Init()
 	file := "hoge/fuga.txt"
@@ -26,6 +28,6 @@ func ExampleNew() {
 	}
 	fmt.Print(out)
 	// Output:
-	// # On branch master
+	// # On branch main
 	// nothing to commit, working tree clean
 }

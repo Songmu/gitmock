@@ -10,10 +10,6 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
-	"strings"
-
-	"github.com/Masterminds/semver"
-	"github.com/pkg/errors"
 )
 
 // New creates a new git mock repository.
@@ -35,43 +31,12 @@ func (gm *GitMock) Initialize() (*GitMock, error) {
 	if gm.gitPath == "" {
 		gm.gitPath = "git"
 	}
-
-	cmd := exec.Command(gm.gitPath, "version")
-	cmd.Env = append(os.Environ(), "LANG=C")
-	var b bytes.Buffer
-	cmd.Stdout = &b
-	err := cmd.Run()
-	if err != nil {
-		return nil, errors.Wrap(err, "failed to create new GitMock")
-	}
-	gitVer := b.String()
-	arr := strings.Fields(gitVer)
-	if len(arr) != 3 || arr[0] != "git" || arr[1] != "version" {
-		return nil, fmt.Errorf("output of `git version` looks strange: %s", gitVer)
-	}
-	verArr := strings.Split(arr[2], ".")
-	if len(verArr) < 3 {
-		return nil, fmt.Errorf("git version [%s] looks strange", arr[2])
-	}
-	semv := strings.Join(verArr[:3], ".")
-	ver, err := semver.NewVersion(semv)
-	if err != nil {
-		return nil, errors.Wrap(err, fmt.Sprintf("git version [%s] looks strange", arr[2]))
-	}
-	c, _ := semver.NewConstraint(">= 1.8.5")
-	if !c.Check(ver) {
-		return nil, fmt.Errorf("git 1.8.5 or later required")
-	}
-
-	err = exec.Command(gm.gitPath, "config", "user.name").Run()
-	if err != nil {
+	if err := exec.Command(gm.gitPath, "config", "user.name").Run(); err != nil {
 		gm.user = "gitmock"
 	}
-	err = exec.Command(gm.gitPath, "config", "user.email").Run()
-	if err != nil {
+	if err := exec.Command(gm.gitPath, "config", "user.email").Run(); err != nil {
 		gm.email = "gitmock@example.com"
 	}
-
 	return gm, nil
 }
 
